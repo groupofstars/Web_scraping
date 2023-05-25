@@ -1,0 +1,82 @@
+import tkinter as tk
+import webbrowser
+
+root = tk.Tk()
+root.title("Find Key Words - Find All My Likes, Comments")
+root.geometry("800x600")
+root.resizable(True, True)
+
+url_input = tk.StringVar(value="developers.facebook.com/docs/")
+result_list = tk.Listbox(root)
+
+# Set the initial search results
+results = ["jhom", "knenti", "df"]
+for result in results:
+    result_list.insert(tk.END, result)
+
+def search():
+    url = url_input.get()
+    # perform search based on url input
+    # display results in result_list
+
+def accept():
+    # perform action when Accept button is clicked
+    pass
+
+def cancel():
+    # perform action when Cancel button is clicked
+    pass
+
+def open_link(event):
+    # open link in default web browser when double clicked
+    index = result_list.curselection()[0]
+    url = result_list.get(index)
+    webbrowser.open_new(url)
+
+def remove_item(index):
+    result_list.delete(index)
+
+def update_item(index):
+    result_list.itemconfigure(index, bg="yellow")
+
+def comment_item(index):
+    # perform action to add a comment to the selected item
+    pass
+
+url_label = tk.Label(root, text="URL:")
+url_entry = tk.Entry(root, textvariable=url_input, width=70)
+
+search_button = tk.Button(root, text="Search", command=search,width=20,height=2)
+accept_button = tk.Button(root, text="Accept", command=accept,width=20,height=2)
+cancel_button = tk.Button(root, text="Cancel", command=cancel,width=20,height=2)
+
+url_label.grid(row=0, column=0, padx=10, pady=10)
+url_entry.grid(row=0, column=1, padx=10, pady=10, sticky="w")
+
+result_list.grid(row=1, column=0, columnspan=3, padx=10, pady=10, sticky="nesw")
+
+remove_buttons = []
+update_buttons = []
+comment_buttons = []
+
+for i in range(len(results)):
+    remove_button = tk.Button(root, text="Remove", command=lambda index=i: remove_item(index))
+    update_button = tk.Button(root, text="Update", command=lambda index=i: update_item(index))
+    comment_button = tk.Button(root, text="Comment", command=lambda index=i: comment_item(index))
+
+    remove_buttons.append(remove_button)
+    update_buttons.append(update_button)
+    comment_buttons.append(comment_button)
+
+    result_list.itemconfig(i, fg="blue")
+    result_list.itemconfig(i, font="-weight bold")
+
+    remove_button.grid(row=i+2, column=0, padx=10, pady=5)
+    update_button.grid(row=i+2, column=1, padx=10, pady=5)
+    comment_button.grid(row=i+2, column=2, padx=10, pady=5)
+
+search_button.grid(row=len(results)+2, column=0, padx=10, pady=10)
+accept_button.grid(row=len(results)+2, column=1, padx=10, pady=10)
+cancel_button.grid(row=len(results)+2, column=2, padx=10, pady=10)
+
+root.mainloop()
